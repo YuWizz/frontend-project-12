@@ -1,0 +1,15 @@
+{
+  "name": "@hexlet/code",
+  "version": "1.0.0",
+  "description": "chat on React",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YuWizz/frontend-project-12"
+  },
+  "author": "Uliia Prokofeva",
+  "license": "ISC"
+}
