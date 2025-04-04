@@ -2,4 +2,4 @@ build:
 	cd frontend && yarn build
 
 start:
-	npx start-server -s ./frontend/dist
+	./frontend/node_modules/.bin/start-server -s ./frontend/dist
