@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchChannels, setCurrentChannel } from '../slices/channelsSlice.js';
-import { fetchMessages } from '../slices/messagesSlice.js';
+import { fetchMessages, addMessage } from '../slices/messagesSlice.js';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -11,7 +11,9 @@ import Nav from 'react-bootstrap/Nav';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import Alert from 'react-bootstrap/Alert';
-import Form from 'react-bootstrap/Form';
+import { io } from 'socket.io-client';
+import MessageForm from '../components/MessageForm.jsx';
+
 
 const ChatPage = () => {
   const { logOut, user } = useAuth();
@@ -22,11 +24,14 @@ const ChatPage = () => {
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
   const channelsLoadingStatus = useSelector((state) => state.channels.loadingStatus);
   const channelsError = useSelector((state) => state.channels.error);
-
   const messages = useSelector((state) => state.messages.entities);
   const messagesLoadingStatus = useSelector((state) => state.messages.loadingStatus);
   const messagesError = useSelector((state) => state.messages.error);
 
+  const socketRef = useRef(null);
+  const messagesBoxRef = useRef(null);
+
+  
   useEffect(() => {
     if (channelsLoadingStatus === 'idle') {
       dispatch(fetchChannels());
@@ -35,6 +40,42 @@ const ChatPage = () => {
       dispatch(fetchMessages());
     }
   }, [dispatch, channelsLoadingStatus, messagesLoadingStatus]);
+
+  useEffect(() => {
+    if (!socketRef.current) {
+      socketRef.current = io();
+
+      socketRef.current.on('newMessage', (messagePayload) => {
+        console.log('New message received:', messagePayload);
+        dispatch(addMessage(messagePayload));
+      });
+      socketRef.current.on('connect', () => {
+        console.log('Socket connected:', socketRef.current.id);
+      });
+
+      socketRef.current.on('disconnect', (reason) => {
+        console.log('Socket disconnected:', reason);
+      });
+
+       socketRef.current.on('connect_error', (err) => {
+         console.error("Socket connection error:", err);
+       });
+    }
+
+    return () => {
+      if (socketRef.current && socketRef.current.connected) {
+        console.log('Disconnecting socket...');
+        socketRef.current.disconnect();
+        socketRef.current = null;
+      }
+    };
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (messagesBoxRef.current) {
+      messagesBoxRef.current.scrollTop = messagesBoxRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   const handleLogout = () => {
     logOut();
@@ -49,7 +90,6 @@ const ChatPage = () => {
   return (
     <Container fluid className="h-100">
       <Row className="h-100 bg-light">
-        {/* Левая колонка: Каналы */}
         <Col xs={4} md={3} lg={2} className="border-end px-0 bg-white d-flex flex-column h-100">
           <div className="d-flex justify-content-between mb-2 ps-4 pt-3 pe-2">
             <b>Каналы</b>
@@ -101,19 +141,7 @@ const ChatPage = () => {
           </div>
 
           <div className="mt-auto px-4 py-3 bg-white">
-            <Form onSubmit={(e) => e.preventDefault()}>
-              <Form.Group className="d-flex">
-                <Form.Control
-                  type="text"
-                  placeholder="Введите сообщение..."
-                  aria-label="Новое сообщение"
-                  className="me-2"
-                />
-                <Button type="submit" variant="primary" disabled>
-                  Отправить
-                </Button>
-              </Form.Group>
-            </Form>
+             {currentChannelId && <MessageForm channelId={currentChannelId} />}
           </div>
         </Col>
       </Row>

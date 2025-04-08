@@ -37,6 +37,12 @@ const messagesSlice = createSlice({
   name: 'messages',
   initialState,
   reducers: {
+    addMessage: (state, action) => {
+      const existingMessage = state.entities.find(msg => msg.id === action.payload.id);
+      if (!existingMessage) {
+         state.entities.push(action.payload);
+      }
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -55,4 +61,5 @@ const messagesSlice = createSlice({
   },
 });
 
+export const { addMessage } = messagesSlice.actions;
 export default messagesSlice.reducer;
