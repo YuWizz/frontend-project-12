@@ -1,0 +1,92 @@
+export default {
+  translation: {
+    buttons: {
+      submit: 'Отправить',
+      cancel: 'Отменить',
+      login: 'Войти',
+      logout: 'Выйти',
+      signup: 'Зарегистрироваться',
+      add: '+',
+      rename: 'Переименовать',
+      remove: 'Удалить',
+    },
+    toasts: {
+      addChannelSuccess: 'Канал создан',
+      renameChannelSuccess: 'Канал переименован',
+      removeChannelSuccess: 'Канал удалён',
+      fetchDataError: 'Ошибка загрузки данных',
+      networkError: 'Ошибка сети',
+    },
+    errors: {
+      profanityDetected: 'Недопустимая лексика',
+      network: 'Ошибка сети',
+      unknown: 'Неизвестная ошибка',
+      required: 'Обязательное поле',
+      minChars: 'От {{min}} до {{max}} символов',
+      passwordsMustMatch: 'Пароли должны совпадать',
+      userExists: 'Такой пользователь уже существует',
+      unauthorized: 'Вы не авторизованы.',
+      invalidCredentials: 'Неверное имя пользователя или пароль',
+      channelUnique: 'Должно быть уникальным',
+      channelMin: 'От 3 до 20 символов',
+      channelMax: 'От 3 до 20 символов',
+      addChannelError: 'Ошибка добавления канала',
+      sendMessageTimeout: 'Не удалось отправить сообщение. Время ожидания истекло.',
+      sendErrorPrefix: 'Ошибка отправки:',
+      passwordMin: 'Не менее {{count}} символов',
+      serverError: 'Ошибка сервера: {{status}}',
+      removeChannelError: 'Ошибка удаления канала',
+      renameChannelError: 'Ошибка переименования канала',
+    },
+    loading: 'Загрузка...',
+    notFound: {
+      title: '404 - Страница не найдена',
+      message: 'Извините, запрошенная вами страница не существует.',
+      goHome: 'Перейти на главную',
+    },
+    navbar: {
+      brand: 'Hexlet Chat',
+      loggedInAs: 'Вы вошли как: {{username}}',
+    },
+    login: {
+      title: 'Войти',
+      usernameLabel: 'Ваш ник',
+      passwordLabel: 'Пароль',
+      noAccount: 'Нет аккаунта?',
+      signupLink: 'Регистрация',
+    },
+    signup: {
+      title: 'Регистрация',
+      usernameLabel: 'Имя пользователя',
+      usernamePlaceholder: 'От 3 до 20 символов',
+      passwordLabel: 'Пароль',
+      passwordPlaceholder: 'Не менее 6 символов',
+      confirmPasswordLabel: 'Подтвердите пароль',
+      confirmPasswordPlaceholder: 'Пароли должны совпадать',
+    },
+    chat: {
+      channelsHeader: 'Каналы',
+      messagesCount_one: '{{count}} сообщение',
+      messagesCount_few: '{{count}} сообщения',
+      messagesCount_many: '{{count}} сообщений',
+      newMessagePlaceholder: 'Введите сообщение...',
+      newMessageAriaLabel: 'Новое сообщение',
+      sendMessage: 'Отправить',
+      channelControl: 'Управление каналом',
+    },
+    modals: {
+      addChannel: {
+        title: 'Добавить канал',
+        label: 'Имя канала',
+      },
+      renameChannel: {
+        title: 'Переименовать канал',
+        label: 'Новое имя',
+      },
+      removeChannel: {
+        title: 'Удалить канал',
+        confirm: 'Уверены?',
+      },
+    }
+  }
+};

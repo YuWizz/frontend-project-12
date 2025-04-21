@@ -5,6 +5,8 @@ import { useAuth } from '../contexts/AuthContext.jsx';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';
+import { useTranslation } from 'react-i18next';
+import leoProfanity from '../profanityFilter.js';
 
 const API_PATH = '/api/v1/messages';
 const AUTH_TOKEN_KEY = 'chatToken';
@@ -13,6 +15,7 @@ const MessageForm = ({ channelId }) => {
   const { user } = useAuth();
   const [sendError, setSendError] = useState(null);
   const inputRef = useRef(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -28,13 +31,15 @@ const MessageForm = ({ channelId }) => {
 
       const token = localStorage.getItem(AUTH_TOKEN_KEY);
       if (!token || !user) {
-        setSendError('Ошибка: Вы не авторизованы.');
+        setSendError(t('errors.unauthorized'));
         setSubmitting(false);
         return;
       }
 
+      const cleanedBody = leoProfanity.clean(values.body);
+
       const newMessage = {
-        body: values.body,
+        body: cleanedBody,
         channelId: channelId,
         username: user.username,
       };
@@ -49,13 +54,13 @@ const MessageForm = ({ channelId }) => {
         setSubmitting(false);
         console.error('Failed to send message:', error);
         if (error.code === 'ECONNABORTED') {
-           setSendError('Не удалось отправить сообщение. Время ожидания истекло.');
+           setSendError(t('errors.sendMessageTimeout'));
         } else if (error.response) {
-           setSendError(`Ошибка отправки: ${error.response.statusText || error.message}`);
+           setSendError(`${t('errors.sendErrorPrefix')} ${error.response.statusText || error.message}`);
         } else if (error.request) {
-           setSendError('Не удалось отправить сообщение. Проверьте сеть.');
+           setSendError(t('errors.network'));
         } else {
-           setSendError('Произошла ошибка при отправке сообщения.');
+           setSendError(t('errors.unknown'));
         }
       } finally {
          setTimeout(() => {
@@ -75,8 +80,8 @@ const MessageForm = ({ channelId }) => {
           onBlur={formik.handleBlur}
           value={formik.values.body}
           name="body"
-          aria-label="Новое сообщение"
-          placeholder="Введите сообщение..."
+          aria-label={t('chat.newMessageAriaLabel')}
+          placeholder={t('chat.newMessagePlaceholder')}
           className="border-0 p-0 ps-2"
           required
           disabled={formik.isSubmitting}
@@ -89,7 +94,7 @@ const MessageForm = ({ channelId }) => {
           className="border-0"
         >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="20" height="20" fill="currentColor"><path fillRule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm4.5 5.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z"></path></svg>
-          <span className="visually-hidden">Отправить</span>
+          <span className="visually-hidden">{t('chat.sendMessage')}</span>
         </Button>
         {sendError && <Form.Control.Feedback type="invalid" tooltip>{sendError}</Form.Control.Feedback>}
       </InputGroup>

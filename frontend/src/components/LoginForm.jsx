@@ -4,11 +4,13 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const LoginForm = () => {
   const auth = useAuth();
   const navigate = useNavigate();
   const [loginError, setLoginError] = useState(null);
+  const { t } = useTranslation();
 
   const initialValues = {
     username: '',
@@ -23,7 +25,7 @@ const LoginForm = () => {
     } catch (error) {
       setSubmitting(false);
       if (error.isAxiosError && error.response && error.response.status === 401) {
-        setLoginError('Неверные имя пользователя или пароль');
+        setLoginError(t('errors.invalidCredentials'));
         console.log(error);
       }
     }
@@ -42,7 +44,7 @@ const LoginForm = () => {
       }) => (
         <Form onSubmit={formikSubmit}>
           <Form.Group className="mb-3" controlId="username">
-            <Form.Label>Ваш ник</Form.Label>
+            <Form.Label>{t('login.usernameLabel')}</Form.Label>
             <Form.Control
               type="text"
               onChange={handleChange}
@@ -55,7 +57,7 @@ const LoginForm = () => {
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="password">
-            <Form.Label>Пароль</Form.Label>
+            <Form.Label>{t('login.passwordLabel')}</Form.Label>
             <Form.Control
               type="password"
               onChange={handleChange}
@@ -66,12 +68,12 @@ const LoginForm = () => {
               disabled={isSubmitting}
             />
             <Form.Control.Feedback type="invalid" style={{ display: loginError ? 'block' : 'none' }}>
-              {loginError || 'Неверные данные'}
+              {loginError}
             </Form.Control.Feedback>
           </Form.Group>
 
           <Button variant="primary" type="submit" disabled={isSubmitting}>
-            {isSubmitting ? 'Вход...' : 'Войти'}
+            {isSubmitting ? t('loading') : t('buttons.login')}
           </Button>
         </Form>
       )}

@@ -1,3 +1,6 @@
+install:
+	cd frontend && yarn install
+
 build:
 	cd frontend && yarn build
 

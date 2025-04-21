@@ -1,0 +1,110 @@
+import React, { useEffect, useRef } from 'react';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { useSelector, useDispatch } from 'react-redux';
+import { Modal, Form, Button } from 'react-bootstrap';
+import { renameExistingChannel, selectChannelNames } from '../../slices/channelsSlice';
+import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
+import leoProfanity from '../../profanityFilter.js';
+
+const RenameChannelModal = ({ show, handleClose, channelId, currentName }) => {
+  const dispatch = useDispatch();
+  const otherChannelNames = useSelector(selectChannelNames).filter(name => name !== currentName);
+  const inputRef = useRef(null);
+  const { t } = useTranslation();
+
+  useEffect(() => {
+    if (show) {
+      setTimeout(() => inputRef.current?.select(), 100);
+    }
+  }, [show]);
+
+  const validationSchema = Yup.object().shape({
+    name: Yup.string()
+      .trim()
+      .required(t('errors.required'))
+      .min(3, t('errors.minChars', { min: 3, max: 20 }))
+      .max(20, t('errors.minChars', { min: 3, max: 20 }))
+      .notOneOf(otherChannelNames, t('errors.channelUnique'))
+      .test(
+        'profanity-check',
+        t('errors.profanityDetected'),
+        (value) => !leoProfanity.check(value || '')
+      ),
+  });
+
+  const formik = useFormik({
+    initialValues: { name: currentName || '' },
+    validationSchema,
+    onSubmit: async (values, { setSubmitting, resetForm, setFieldError }) => {
+      setSubmitting(true);
+        try {
+          const resultAction = await dispatch(renameExistingChannel({ id: channelId, name: values.name.trim() }));
+          if (renameExistingChannel.fulfilled.match(resultAction)) {
+              toast.success(t('toasts.renameChannelSuccess'));
+              resetForm();
+              handleClose();
+          } else {
+              toast.error(t('errors.network'));
+              setFieldError('name', resultAction.payload || t('errors.renameChannelError'));
+              console.error("Rename channel failed:", resultAction.error);
+          }
+        } catch (error) {
+            toast.error(t('errors.unknown'))
+            setFieldError('name', t('errors.unknown'));
+            console.error("Unexpected error:", error);
+        } finally {
+            setSubmitting(false);
+        }
+    },
+    enableReinitialize: true,
+    validateOnBlur: false,
+    validateOnChange: false,
+  });
+
+  const handleModalClose = () => {
+    formik.resetForm({ values: { name: currentName || '' } });
+    handleClose();
+  };
+
+
+  return (
+    <Modal show={show} onHide={handleModalClose} centered>
+      <Modal.Header closeButton>
+        <Modal.Title>{t('modals.renameChannel.title')}</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form onSubmit={formik.handleSubmit}>
+          <Form.Group>
+            <Form.Control
+              ref={inputRef}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.name}
+              name="name"
+              id="rename-channel-name"
+              isInvalid={!!formik.errors.name}
+              disabled={formik.isSubmitting}
+              required
+            />
+             <Form.Label htmlFor="rename-channel-name" className="visually-hidden">{t('modals.renameChannel.label')}</Form.Label>
+            <Form.Control.Feedback type="invalid">
+              {formik.errors.name}
+            </Form.Control.Feedback>
+          </Form.Group>
+          <div className="d-flex justify-content-end mt-3">
+            <Button variant="secondary" onClick={handleModalClose} className="me-2" disabled={formik.isSubmitting}>
+              {t('buttons.cancel')}
+            </Button>
+            <Button type="submit" variant="primary" disabled={formik.isSubmitting}>
+              {formik.isSubmitting ? t('loading') : t('buttons.rename')}
+            </Button>
+          </div>
+        </Form>
+      </Modal.Body>
+    </Modal>
+  );
+};
+
+export default RenameChannelModal;
