@@ -26,8 +26,9 @@ const RemoveChannelModal = ({ show, handleClose, channelId }) => {
           console.error("Delete channel failed:", resultAction.error);
       }
     } catch (error) {
-        setDeleteError(t('errors.unknown'));
-        toast.error(unknownErrorMsg);
+        const errorMsg = t('errors.unknown');
+        setDeleteError(errorMsg);
+        toast.error(errorMsg);
         console.error("Unexpected error:", error);
     } finally {
         setIsDeleting(false);

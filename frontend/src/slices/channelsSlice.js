@@ -68,7 +68,7 @@ export const deleteExistingChannel = createAsyncThunk(
     const token = localStorage.getItem(AUTH_TOKEN_KEY);
     if (!token) return rejectWithValue('No token');
     try {
-      const response = await axios.delete(`${API_PATH}/${id}`, {
+      await axios.delete(`${API_PATH}/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       return { id };

@@ -39,7 +39,6 @@ const LoginForm = () => {
         handleChange,
         values,
         touched,
-        errors, 
         isSubmitting, 
       }) => (
         <Form onSubmit={formikSubmit}>

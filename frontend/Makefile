@@ -5,7 +5,18 @@ start:
 	npm start
 
 build:
-	npm build
+	npm run build
 
 lint:
-	npx eslint --ext js,jsx --no-eslintrc --config .eslintrc.yml .
+	npx eslint .
+
+lint-fix:
+	npx eslint . --fix
+
+check-format:
+	npx prettier --check 'src/**/*.{js,jsx,css,json}'
+
+format:
+	npx prettier --write 'src/**/*.{js,jsx,css,json}'
+
+check-code: lint check-format
