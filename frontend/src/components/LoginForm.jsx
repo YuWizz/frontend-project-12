@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Formik } from 'formik';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { useAuth } from '../contexts/useAuth.jsx';
+import { useAuth } from '../contexts/useAuth.js';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 

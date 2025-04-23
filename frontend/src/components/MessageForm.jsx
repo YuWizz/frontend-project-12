@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import axios from 'axios';
-import { useAuth } from '../contexts/useAuth.jsx';
+import { useAuth } from '../contexts/useAuth.js';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';

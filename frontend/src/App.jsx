@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route, Navigate, Link } from 'react-router-dom';
-import { useAuth } from './contexts/useAuth.jsx';
+import { useAuth } from './contexts/useAuth.js';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
