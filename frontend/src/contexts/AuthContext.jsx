@@ -17,8 +17,16 @@ const AuthProvider = ({ children }) => {
 
   const [token, setToken] = useState(initialToken);
   const [user, setUser] = useState(initialUser);
-
   const [loggedIn, setLoggedIn] = useState(!!initialToken);
+
+  const logOut = useCallback(() => {
+    localStorage.removeItem(localStorageKeys.token);
+    localStorage.removeItem(localStorageKeys.user);
+  
+    setToken(null);
+    setUser(null);
+    setLoggedIn(false);
+  }, []);
 
   const logIn = useCallback(async (authData) => {
     try {
@@ -39,14 +47,6 @@ const AuthProvider = ({ children }) => {
         logOut();
         throw error;
       }
-  }, [logOut]);
-
-  const logOut = useCallback(() => {
-    localStorage.removeItem(localStorageKeys.token);
-    localStorage.removeItem(localStorageKeys.user);
-  
-    setToken(null);
-    setUser(null);
   }, []);
 
   const contextValue = useMemo(
