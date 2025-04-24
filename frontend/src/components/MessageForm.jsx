@@ -31,7 +31,7 @@ const MessageForm = ({ channelId }) => {
 
       const token = localStorage.getItem(AUTH_TOKEN_KEY);
       if (!token || !user) {
-        setSendError(t('errors.unauthorized'));
+        setSendError(t('errors.unknown'));
         setSubmitting(false);
         return;
       }
@@ -54,11 +54,11 @@ const MessageForm = ({ channelId }) => {
         setSubmitting(false);
         console.error('Failed to send message:', error);
         if (error.code === 'ECONNABORTED') {
-           setSendError(t('errors.sendMessageTimeout'));
+           setSendError(t('errors.connection'));
         } else if (error.response) {
-           setSendError(`${t('errors.sendErrorPrefix')} ${error.response.statusText || error.message}`);
+           setSendError(t('errors.connection'));
         } else if (error.request) {
-           setSendError(t('errors.network'));
+           setSendError(t('errors.connection'));
         } else {
            setSendError(t('errors.unknown'));
         }
@@ -80,8 +80,6 @@ const MessageForm = ({ channelId }) => {
           onBlur={formik.handleBlur}
           value={formik.values.body}
           name="body"
-          aria-label={t('chat.newMessageAriaLabel')}
-          placeholder={t('chat.newMessagePlaceholder')}
           className="border-0 p-0 ps-2"
           required
           disabled={formik.isSubmitting}

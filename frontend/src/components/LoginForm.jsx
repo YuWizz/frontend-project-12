@@ -27,7 +27,12 @@ const LoginForm = () => {
       if (error.isAxiosError && error.response && error.response.status === 401) {
         setLoginError(t('errors.invalidCredentials'));
         console.log(error);
+      } else {
+        setLoginError(t('errors.connection') || t('errors.unknown'));
+        console.error(error);
       }
+    } finally {
+       setSubmitting(false);
     }
   };
 

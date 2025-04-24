@@ -24,8 +24,8 @@ const RenameChannelModal = ({ show, handleClose, channelId, currentName }) => {
     name: Yup.string()
       .trim()
       .required(t('errors.required'))
-      .min(3, t('errors.minChars', { min: 3, max: 20 }))
-      .max(20, t('errors.minChars', { min: 3, max: 20 }))
+      .min(3, t('errors.usernameLength'))
+      .max(20, t('errors.usernameLength'))
       .notOneOf(otherChannelNames, t('errors.channelUnique'))
       .test(
         'profanity-check',
@@ -46,8 +46,8 @@ const RenameChannelModal = ({ show, handleClose, channelId, currentName }) => {
               resetForm();
               handleClose();
           } else {
-              toast.error(t('errors.network'));
-              setFieldError('name', resultAction.payload || t('errors.renameChannelError'));
+              toast.error(t('toasts.networkError'));
+              setFieldError('name', resultAction.payload || t('errors.unknown'));
               console.error("Rename channel failed:", resultAction.error);
           }
         } catch (error) {

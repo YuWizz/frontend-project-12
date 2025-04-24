@@ -24,8 +24,8 @@ const AddChannelModal = ({ show, handleClose }) => {
     name: Yup.string()
       .trim()
       .required(t('errors.required'))
-      .min(3, t('errors.minChars', { min: 3, max: 20 }))
-      .max(20, t('errors.minChars', { min: 3, max: 20 }))
+      .min(3, t('errors.usernameLength'))
+      .max(20, t('errors.usernameLength'))
       .notOneOf(channelNames, t('errors.channelUnique'))
       .test(
         'profanity-check',
@@ -48,8 +48,8 @@ const AddChannelModal = ({ show, handleClose }) => {
           resetForm();
           handleClose();
         } else {
-          toast.error(t('errors.network'));
-          setFieldError('name', resultAction.payload || t('errors.addChannelError'));
+          toast.error(t('toasts.networkError'));
+          setFieldError('name', resultAction.payload || t('errors.unknown'));
           console.error("Add channel failed:", resultAction.error);
         }
       } catch (error) {
@@ -89,9 +89,6 @@ const AddChannelModal = ({ show, handleClose }) => {
             </Form.Control.Feedback>
           </Form.Group>
           <div className="d-flex justify-content-end mt-3">
-            <Button variant="secondary" onClick={handleClose} className="me-2" disabled={formik.isSubmitting}>
-              {t('buttons.cancel')}
-            </Button>
             <Button type="submit" variant="primary" disabled={formik.isSubmitting}>
               {formik.isSubmitting ? t('loading') : t('buttons.submit')}
             </Button>

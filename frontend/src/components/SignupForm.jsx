@@ -25,11 +25,11 @@ const SignupForm = () => {
     username: Yup.string()
       .trim()
       .required(t('errors.required'))
-      .min(3, t('errors.minChars', { min: 3, max: 20 }))
-      .max(20, t('errors.minChars', { min: 3, max: 20 })),
+      .min(3, t('errors.usernameLength'))
+      .max(20, t('errors.usernameLength')),
     password: Yup.string()
       .required(t('errors.required'))
-      .min(6, t('errors.passwordMin')),
+      .min(6, t('errors.passwordLength')),
     confirmPassword: Yup.string()
       .required(t('errors.required'))
       .oneOf([Yup.ref('password'), null], t('errors.passwordsMustMatch')),
@@ -61,10 +61,10 @@ const SignupForm = () => {
             setFieldError('username', t('errors.userExists'));
             usernameInputRef.current?.focus();
           } else {
-            setSignupError(t('errors.serverError', { status: error.response.status }));
+            setSignupError(t('errors.connection'));
           }
         } else if (error.request) {
-          setSignupError(t('errors.network'));
+          setSignupError(t('errors.connection'));
         } else {
           setSignupError(t('errors.unknown'));
         }
@@ -83,7 +83,7 @@ const SignupForm = () => {
           value={formik.values.username}
           name="username"
           placeholder={t('signup.usernamePlaceholder')}
-          isInvalid={!!(formik.errors.username && formik.touched.username)}
+          isInvalid={formik.touched.username && !!formik.errors.username}
           required
           disabled={formik.isSubmitting}
         />
@@ -93,14 +93,14 @@ const SignupForm = () => {
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="password">
-        <Form.Label>{t('signup.confirmPasswordLabel')}</Form.Label>
+        <Form.Label>{t('signup.passwordLabel')}</Form.Label>
         <Form.Control
           type="password"
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.password}
           name="password"
-          placeholder={t('signup.confirmPasswordPlaceholder')}
+          placeholder={t('signup.passwordPlaceholder')}
           isInvalid={!!formik.errors.password && formik.touched.password}
           required
           disabled={formik.isSubmitting}
@@ -111,7 +111,7 @@ const SignupForm = () => {
       </Form.Group>
 
       <Form.Group className="mb-4" controlId="confirmPassword">
-        <Form.Label>{t('signup.passwordLabel')}</Form.Label>
+        <Form.Label>{t('signup.confirmPasswordLabel')}</Form.Label>
         <Form.Control
           type="password"
           onChange={formik.handleChange}
