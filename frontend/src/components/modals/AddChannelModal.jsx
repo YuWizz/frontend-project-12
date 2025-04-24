@@ -35,7 +35,8 @@ const AddChannelModal = ({ show, handleClose }) => {
     onSubmit: async (values, { setSubmitting, resetForm, setFieldError }) => {
       setSubmitting(true);
       try {
-        const resultAction = await dispatch(addNewChannel({ name: values.name.trim() }));
+        const cleanedName = leoProfanity.clean(values.name.trim());
+        const resultAction = await dispatch(addNewChannel({ name: cleanedName }));
         if (addNewChannel.fulfilled.match(resultAction)) {
           toast.success(t('toasts.addChannelSuccess'));
           const newChannel = resultAction.payload;

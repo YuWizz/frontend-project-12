@@ -35,7 +35,8 @@ const RenameChannelModal = ({ show, handleClose, channelId, currentName }) => {
     onSubmit: async (values, { setSubmitting, resetForm, setFieldError }) => {
       setSubmitting(true);
         try {
-          const resultAction = await dispatch(renameExistingChannel({ id: channelId, name: values.name.trim() }));
+          const cleanedName = leoProfanity.clean(values.name.trim());
+          const resultAction = await dispatch(renameExistingChannel({ id: channelId, name: cleanedName }));
           if (renameExistingChannel.fulfilled.match(resultAction)) {
               toast.success(t('toasts.renameChannelSuccess'));
               resetForm();
