@@ -134,8 +134,8 @@ const ChatPage = () => {
               variant={channel.id === currentChannelId ? 'secondary' : 'light'}
               id={`dropdown-split-basic-${channel.id}`}
               className="border-0 rounded-0 rounded-end"
-              aria-label={t('chat.channelControl')}
              >
+              <span className="visually-hidden">{t('buttons.add')}</span>
             </Dropdown.Toggle>
             <Dropdown.Menu>
               <Dropdown.Item onClick={() => handleShowModal('remove', channel)}>Удалить</Dropdown.Item>
