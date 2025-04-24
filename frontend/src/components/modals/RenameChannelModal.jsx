@@ -27,11 +27,6 @@ const RenameChannelModal = ({ show, handleClose, channelId, currentName }) => {
       .min(3, t('errors.usernameLength'))
       .max(20, t('errors.usernameLength'))
       .notOneOf(otherChannelNames, t('errors.channelUnique'))
-      .test(
-        'profanity-check',
-        t('errors.profanityDetected'),
-        (value) => !leoProfanity.check(value || '')
-      ),
   });
 
   const formik = useFormik({

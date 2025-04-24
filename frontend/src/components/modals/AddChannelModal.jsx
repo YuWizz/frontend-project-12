@@ -27,11 +27,6 @@ const AddChannelModal = ({ show, handleClose }) => {
       .min(3, t('errors.usernameLength'))
       .max(20, t('errors.usernameLength'))
       .notOneOf(channelNames, t('errors.channelUnique'))
-      .test(
-        'profanity-check',
-        t('errors.profanityDetected'),
-        (value) => !leoProfanity.check(value || '')
-      ),
   });
 
   const formik = useFormik({
