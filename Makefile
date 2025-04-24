@@ -1,5 +1,5 @@
 install:
-	cd frontend && yarn install
+	cd frontend && yarn install --ignore-engines
 
 build:
 	cd frontend && yarn build
