@@ -78,12 +78,12 @@ const AddChannelModal = ({ show, handleClose }) => {
               onBlur={formik.handleBlur}
               value={formik.values.name}
               name="name"
-              id="add-channel-name"
+              id="channelName"
               isInvalid={!!formik.errors.name}
               disabled={formik.isSubmitting}
               required
             />
-             <Form.Label htmlFor="name" className="visually-hidden">{t('modals.addChannel.label')}</Form.Label>
+            <Form.Label htmlFor="channelName" className="visually-hidden">{t('modals.addChannel.label')}</Form.Label>
             <Form.Control.Feedback type="invalid">
               {formik.errors.name}
             </Form.Control.Feedback>
