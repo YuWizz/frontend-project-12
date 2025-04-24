@@ -84,7 +84,7 @@ const RenameChannelModal = ({ show, handleClose, channelId, currentName }) => {
               disabled={formik.isSubmitting}
               required
             />
-             <Form.Label htmlFor="rename-channel-name" className="visually-hidden">{t('modals.renameChannel.label')}</Form.Label>
+            <Form.Label htmlFor="rename-channel-name" className="visually-hidden">{t('modals.addChannel.label')}</Form.Label>
             <Form.Control.Feedback type="invalid">
               {formik.errors.name}
             </Form.Control.Feedback>
