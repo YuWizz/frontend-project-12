@@ -80,6 +80,8 @@ const MessageForm = ({ channelId }) => {
           onBlur={formik.handleBlur}
           value={formik.values.body}
           name="body"
+          aria-label={t('chat.newMessageAriaLabel')}
+          placeholder={t('chat.newMessagePlaceholder')}
           className="border-0 p-0 ps-2"
           required
           disabled={formik.isSubmitting}
