@@ -73,7 +73,7 @@ const ChatPage = () => {
       socketRef.current = io();
 
       socketRef.current.on('newMessage', (msg) => {
-        console.log('SOCKET: Received newMessage', msg);
+        console.log('SOCKET: Received newMessage', msg); // Лог для сообщений
         dispatch(addMessage(msg));
       });
 
@@ -135,7 +135,7 @@ const ChatPage = () => {
               id={`dropdown-split-basic-${channel.id}`}
               className="border-0 rounded-0 rounded-end"
              >
-              <span className="visually-hidden">{t('buttons.add')}</span>
+            <span className="visually-hidden">{t('buttons.add')}</span>
             </Dropdown.Toggle>
             <Dropdown.Menu>
               <Dropdown.Item onClick={() => handleShowModal('remove', channel)}>Удалить</Dropdown.Item>
