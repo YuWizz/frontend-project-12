@@ -71,10 +71,26 @@ const ChatPage = () => {
   useEffect(() => {
     if (!socketRef.current) {
       socketRef.current = io();
-      socketRef.current.on('newMessage', (msg) => dispatch(addMessage(msg)));
-      socketRef.current.on('newChannel', (ch) => dispatch(addChannel(ch)));
-      socketRef.current.on('removeChannel', (payload) => dispatch(removeChannel(payload)));
-      socketRef.current.on('renameChannel', (ch) => dispatch(renameChannel(ch)));
+
+      socketRef.current.on('newMessage', (msg) => {
+        console.log('SOCKET: Received newMessage', msg);
+        dispatch(addMessage(msg));
+      });
+
+      socketRef.current.on('newChannel', (ch) => {
+        console.log('SOCKET: Received newChannel', ch);
+        dispatch(addChannel(ch));
+      });
+
+      socketRef.current.on('removeChannel', (payload) => {
+         console.log('SOCKET: Received removeChannel', payload);
+        dispatch(removeChannel(payload));
+      });
+
+      socketRef.current.on('renameChannel', (ch) => {
+        console.log('SOCKET: Received renameChannel', ch);
+        dispatch(renameChannel(ch));
+      });
 
       socketRef.current.on('connect', () => console.log('Socket connected:', socketRef.current.id));
       socketRef.current.on('disconnect', (r) => console.log('Socket disconnected:', r));

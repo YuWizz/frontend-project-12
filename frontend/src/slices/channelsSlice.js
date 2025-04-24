@@ -96,6 +96,7 @@ const channelsSlice = createSlice({
       state.currentChannelId = action.payload;
     },
     addChannel: (state, action) => {
+      console.log('Reducer addChannel payload:', action.payload);
       if (!state.entities.find(ch => ch.id === action.payload.id)) {
         state.entities.push(action.payload);
       }
