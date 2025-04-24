@@ -27,7 +27,7 @@ const runApp = () => {
       resources,
       lng: 'ru',
       fallbackLng: 'ru',
-      debug: process.env.NODE_ENV === 'development',
+      debug: import.meta.env.MODE === 'development',
       interpolation: {
         escapeValue: false,
       },
