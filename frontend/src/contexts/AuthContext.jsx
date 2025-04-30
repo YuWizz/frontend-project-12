@@ -27,7 +27,7 @@ const AuthProvider = ({ children }) => {
     setLoggedIn(false)
   }, [])
 
-  const logIn = useCallback(async authData => {
+  const logIn = useCallback(async (authData) => {
     try {
       const response = await axios.post('/api/v1/login', authData)
       const { token: receivedToken, username } = response.data
@@ -45,7 +45,6 @@ const AuthProvider = ({ children }) => {
       logOut()
       throw error
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const contextValue = useMemo(
