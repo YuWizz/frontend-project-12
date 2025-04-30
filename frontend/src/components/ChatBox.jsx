@@ -30,12 +30,12 @@ const ChatBox = () => {
         {currentChannel && (
           <>
             <b>
-              # 
+              #
               {currentChannel.name}
             </b>
             <div className="text-muted">
               {t('chat.messagesCount',
-              { count: currentMessages.length })}
+                { count: currentMessages.length })}
             </div>
           </>
         )}
