@@ -47,6 +47,7 @@ const AuthProvider = ({ children }) => {
         logOut();
         throw error;
       }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const contextValue = useMemo(

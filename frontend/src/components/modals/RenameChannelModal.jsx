@@ -14,7 +14,6 @@ const RenameChannelModal = () => {
   const { t } = useTranslation();
   const modalChannel = useSelector(selectModalChannel);
   const channelId = modalChannel?.id;
-  const currentName = modalChannel?.name;
   const allChannels = useSelector(selectAllChannels);
   const currentChannelData = allChannels.find(ch => ch.id === channelId);
   const actualCurrentName = currentChannelData?.name ?? '';
