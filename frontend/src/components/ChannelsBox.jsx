@@ -1,27 +1,27 @@
-import { useSelector, useDispatch } from 'react-redux';
-import Nav from 'react-bootstrap/Nav';
-import Button from 'react-bootstrap/Button';
-import Dropdown from 'react-bootstrap/Dropdown';
-import Spinner from 'react-bootstrap/Spinner';
-import Alert from 'react-bootstrap/Alert';
-import { useTranslation } from 'react-i18next';
-import { setCurrentChannel } from '../slices/channelsSlice.js';
-import { openModal } from '../slices/modalSlice.js';
+import { useSelector, useDispatch } from 'react-redux'
+import Nav from 'react-bootstrap/Nav'
+import Button from 'react-bootstrap/Button'
+import Dropdown from 'react-bootstrap/Dropdown'
+import Spinner from 'react-bootstrap/Spinner'
+import Alert from 'react-bootstrap/Alert'
+import { useTranslation } from 'react-i18next'
+import { setCurrentChannel } from '../slices/channelsSlice.js'
+import { openModal } from '../slices/modalSlice.js'
 
 const ChannelsBox = () => {
-  const dispatch = useDispatch();
-  const { t } = useTranslation();
+  const dispatch = useDispatch()
+  const { t } = useTranslation()
 
-  const channels = useSelector(state => state.channels.entities);
-  const currentChannelId = useSelector(state => state.channels.currentChannelId);
-  const channelsLoadingStatus = useSelector(state => state.channels.loadingStatus);
-  const channelsError = useSelector(state => state.channels.error);
+  const channels = useSelector(state => state.channels.entities)
+  const currentChannelId = useSelector(state => state.channels.currentChannelId)
+  const channelsLoadingStatus = useSelector(state => state.channels.loadingStatus)
+  const channelsError = useSelector(state => state.channels.error)
 
   const showModal = (type, channel = null) => {
-    dispatch(openModal({ type, channel }));
-  };
+    dispatch(openModal({ type, channel }))
+  }
 
-  const handleChannelSelect = id => dispatch(setCurrentChannel(id));
+  const handleChannelSelect = id => dispatch(setCurrentChannel(id))
 
   const renderChannelButton = channel => (
     <Nav.Item key={channel.id} className="w-100 position-static">
@@ -51,7 +51,7 @@ const ChannelsBox = () => {
         )}
       </div>
     </Nav.Item>
-  );
+  )
 
   return (
     <>
@@ -87,7 +87,7 @@ const ChannelsBox = () => {
         {channels.map(renderChannelButton)}
       </Nav>
     </>
-  );
-};
+  )
+}
 
-export default ChannelsBox;
+export default ChannelsBox

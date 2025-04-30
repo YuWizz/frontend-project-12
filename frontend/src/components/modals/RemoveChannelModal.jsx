@@ -1,55 +1,55 @@
-import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Modal, Button } from 'react-bootstrap';
-import { deleteExistingChannel } from '../../slices/channelsSlice';
-import { closeModal, selectModalChannel } from '../../slices/modalSlice.js';
-import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
+import React, { useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { Modal, Button } from 'react-bootstrap'
+import { deleteExistingChannel } from '../../slices/channelsSlice'
+import { closeModal, selectModalChannel } from '../../slices/modalSlice.js'
+import { useTranslation } from 'react-i18next'
+import { toast } from 'react-toastify'
 
 const RemoveChannelModal = () => {
-  const dispatch = useDispatch();
-  const { t } = useTranslation();
-  const channel = useSelector(selectModalChannel);
-  const channelId = channel?.id;
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [deleteError, setDeleteError] = useState(null);
+  const dispatch = useDispatch()
+  const { t } = useTranslation()
+  const channel = useSelector(selectModalChannel)
+  const channelId = channel?.id
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [deleteError, setDeleteError] = useState(null)
 
-  const handleSelfClose = () => dispatch(closeModal());
+  const handleSelfClose = () => dispatch(closeModal())
 
   const handleDelete = async () => {
     if (!channelId) {
-      setDeleteError(t('errors.unknown'));
-      return;
+      setDeleteError(t('errors.unknown'))
+      return
     }
 
-    setIsDeleting(true);
-    setDeleteError(null);
+    setIsDeleting(true)
+    setDeleteError(null)
     try {
-      const resultAction = await dispatch(deleteExistingChannel(channelId));
+      const resultAction = await dispatch(deleteExistingChannel(channelId))
       if (deleteExistingChannel.fulfilled.match(resultAction)) {
-        toast.success(t('toasts.removeChannelSuccess'));
-        handleSelfClose();
+        toast.success(t('toasts.removeChannelSuccess'))
+        handleSelfClose()
       } else {
-        const errorPayload = resultAction.payload || t('errors.removeChannelError', t('errors.unknown'));
-        setDeleteError(errorPayload);
-        toast.error(t('errors.network'));
-        console.error('Delete channel failed:', resultAction.error);
+        const errorPayload = resultAction.payload || t('errors.removeChannelError', t('errors.unknown'))
+        setDeleteError(errorPayload)
+        toast.error(t('errors.network'))
+        console.error('Delete channel failed:', resultAction.error)
       }
     } catch (error) {
-      const errorMsg = t('errors.unknown');
-      setDeleteError(errorMsg);
-      toast.error(errorMsg);
-      console.error('Unexpected error:', error);
+      const errorMsg = t('errors.unknown')
+      setDeleteError(errorMsg)
+      toast.error(errorMsg)
+      console.error('Unexpected error:', error)
     } finally {
-      setIsDeleting(false);
+      setIsDeleting(false)
     }
-  };
+  }
 
   const handleModalClose = () => {
-    setDeleteError(null);
-    setIsDeleting(false);
-    handleSelfClose();
-  };
+    setDeleteError(null)
+    setIsDeleting(false)
+    handleSelfClose()
+  }
 
   return (
     <Modal show onHide={handleModalClose} centered>
@@ -69,7 +69,7 @@ const RemoveChannelModal = () => {
         </div>
       </Modal.Body>
     </Modal>
-  );
-};
+  )
+}
 
-export default RemoveChannelModal;
+export default RemoveChannelModal

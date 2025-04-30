@@ -1,28 +1,28 @@
-import { useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
-import Spinner from 'react-bootstrap/Spinner';
-import Alert from 'react-bootstrap/Alert';
-import { useTranslation } from 'react-i18next';
-import MessageForm from './MessageForm.jsx';
+import { useEffect, useRef } from 'react'
+import { useSelector } from 'react-redux'
+import Spinner from 'react-bootstrap/Spinner'
+import Alert from 'react-bootstrap/Alert'
+import { useTranslation } from 'react-i18next'
+import MessageForm from './MessageForm.jsx'
 
 const ChatBox = () => {
-  const { t } = useTranslation();
-  const messagesBoxRef = useRef(null);
+  const { t } = useTranslation()
+  const messagesBoxRef = useRef(null)
 
-  const channels = useSelector(state => state.channels.entities);
-  const currentChannelId = useSelector(state => state.channels.currentChannelId);
-  const messages = useSelector(state => state.messages.entities);
-  const messagesLoadingStatus = useSelector(state => state.messages.loadingStatus);
-  const messagesError = useSelector(state => state.messages.error);
+  const channels = useSelector(state => state.channels.entities)
+  const currentChannelId = useSelector(state => state.channels.currentChannelId)
+  const messages = useSelector(state => state.messages.entities)
+  const messagesLoadingStatus = useSelector(state => state.messages.loadingStatus)
+  const messagesError = useSelector(state => state.messages.error)
 
-  const currentMessages = messages.filter(msg => msg.channelId === currentChannelId);
-  const currentChannel = channels.find(ch => ch.id === currentChannelId);
+  const currentMessages = messages.filter(msg => msg.channelId === currentChannelId)
+  const currentChannel = channels.find(ch => ch.id === currentChannelId)
 
   useEffect(() => {
     if (messagesBoxRef.current) {
-      messagesBoxRef.current.scrollTop = messagesBoxRef.current.scrollHeight;
+      messagesBoxRef.current.scrollTop = messagesBoxRef.current.scrollHeight
     }
-  }, [messages, currentChannelId]);
+  }, [messages, currentChannelId])
 
   return (
     <>
@@ -50,7 +50,7 @@ const ChatBox = () => {
         {currentChannelId && <MessageForm channelId={currentChannelId} />}
       </div>
     </>
-  );
-};
+  )
+}
 
-export default ChatBox;
+export default ChatBox

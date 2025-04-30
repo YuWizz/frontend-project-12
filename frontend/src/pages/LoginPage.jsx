@@ -1,15 +1,15 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import routes from '../routes.js';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Card from 'react-bootstrap/Card';
-import LoginForm from '../components/LoginForm.jsx';
-import { useTranslation } from 'react-i18next';
+import React from 'react'
+import { Link } from 'react-router-dom'
+import routes from '../routes.js'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Card from 'react-bootstrap/Card'
+import LoginForm from '../components/LoginForm.jsx'
+import { useTranslation } from 'react-i18next'
 
 const LoginPage = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return (
     <Container fluid className="h-100">
@@ -34,7 +34,7 @@ const LoginPage = () => {
         </Col>
       </Row>
     </Container>
-  );
-};
+  )
+}
 
-export default LoginPage;
+export default LoginPage

@@ -1,11 +1,11 @@
-import globals from 'globals';
-import pluginJs from '@eslint/js';
-import pluginReactConfig from 'eslint-plugin-react/configs/recommended.js';
-import pluginReactHooks from 'eslint-plugin-react-hooks';
-import pluginJsxA11y from 'eslint-plugin-jsx-a11y';
-import pluginReactRefresh from 'eslint-plugin-react-refresh';
-import stylisticJs from '@stylistic/eslint-plugin-js';
-import stylisticJsx from '@stylistic/eslint-plugin-jsx';
+import globals from 'globals'
+import pluginJs from '@eslint/js'
+import pluginReactConfig from 'eslint-plugin-react/configs/recommended.js'
+import pluginReactHooks from 'eslint-plugin-react-hooks'
+import pluginJsxA11y from 'eslint-plugin-jsx-a11y'
+import pluginReactRefresh from 'eslint-plugin-react-refresh'
+import stylisticJs from '@stylistic/eslint-plugin-js'
+import stylisticJsx from '@stylistic/eslint-plugin-jsx'
 
 export default [
   { ignores: ['dist/'] },
@@ -47,7 +47,7 @@ export default [
       ...pluginReactConfig.rules,
       'react/react-in-jsx-scope': 'off',
       'react/prop-types': 'off',
-      '@stylistic/js/semi': ['error', 'always'],
+      '@stylistic/js/semi': ['error', 'never'],
       '@stylistic/js/quotes': ['error', 'single'],
       '@stylistic/js/indent': ['error', 2],
       '@stylistic/js/comma-dangle': ['error', 'always-multiline'],
@@ -82,4 +82,4 @@ export default [
       ],
     },
   },
-];
+]
