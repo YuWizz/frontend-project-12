@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Formik } from 'formik'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
@@ -23,30 +23,34 @@ const LoginForm = () => {
     try {
       await auth.logIn(values)
       navigate(routes.chatPath())
-    } catch (error) {
+    }
+    catch (error) {
       setSubmitting(false)
       if (error.isAxiosError && error.response && error.response.status === 401) {
         setLoginError(t('errors.invalidCredentials'))
         console.log(error)
-      } else {
+      }
+      else {
         setLoginError(t('errors.connection') || t('errors.unknown'))
         console.error(error)
       }
-    } finally {
+    }
+    finally {
       setSubmitting(false)
     }
   }
 
   return (
     <Formik
-      initialValues={initialValues} onSubmit={handleSubmit}
+      initialValues={initialValues} 
+      onSubmit={handleSubmit}
     >
       {({
         handleSubmit: formikSubmit,
         handleChange,
         values,
         touched,
-        isSubmitting, 
+        isSubmitting,
       }) => (
         <Form onSubmit={formikSubmit}>
           <Form.Group className="mb-3" controlId="username">

@@ -29,18 +29,21 @@ const RemoveChannelModal = () => {
       if (deleteExistingChannel.fulfilled.match(resultAction)) {
         toast.success(t('toasts.removeChannelSuccess'))
         handleSelfClose()
-      } else {
+      }
+      else {
         const errorPayload = resultAction.payload || t('errors.removeChannelError', t('errors.unknown'))
         setDeleteError(errorPayload)
         toast.error(t('errors.network'))
         console.error('Delete channel failed:', resultAction.error)
       }
-    } catch (error) {
+    }
+    catch (error) {
       const errorMsg = t('errors.unknown')
       setDeleteError(errorMsg)
       toast.error(errorMsg)
       console.error('Unexpected error:', error)
-    } finally {
+    }
+    finally {
       setIsDeleting(false)
     }
   }

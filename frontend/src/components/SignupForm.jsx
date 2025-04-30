@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import axios from 'axios'
@@ -54,19 +54,23 @@ const SignupForm = () => {
         localStorage.setItem('chatUser', JSON.stringify({ username: response.data.username }))
         await auth.logIn({ username, password })
         navigate(routes.chatPath())
-      } catch (error) {
+      }
+      catch (error) {
         setSubmitting(false)
         console.error('Signup failed:', error)
         if (error.isAxiosError && error.response) {
           if (error.response.status === 409) {
             setFieldError('username', t('errors.userExists'))
             usernameInputRef.current?.focus()
-          } else {
+          }
+          else {
             setSignupError(t('errors.connection'))
           }
-        } else if (error.request) {
+        }
+        else if (error.request) {
           setSignupError(t('errors.connection'))
-        } else {
+        }
+        else {
           setSignupError(t('errors.unknown'))
         }
       }

@@ -44,18 +44,21 @@ const AddChannelModal = () => {
           dispatch(setCurrentChannel(newChannel.id))
           resetForm()
           handleSelfClose()
-        } else {
+        }
+        else {
           toast.error(t('toasts.networkError'))
           setFieldError('name', resultAction.payload || t('errors.unknown'))
           console.error('Add channel failed:', resultAction.error)
           inputRef.current?.select()
         }
-      } catch (error) {
+      }
+      catch (error) {
         toast.error(t('errors.unknown'))
         setFieldError('name', t('errors.unknown'))
         console.error('Unexpected error:', error)
         inputRef.current?.select()
-      } finally {
+      }
+      finally {
         setSubmitting(false)
       }
     },

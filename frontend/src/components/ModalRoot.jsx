@@ -1,4 +1,3 @@
-import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { closeModal, selectModalType, selectModalChannel } from '../slices/modalSlice.js'
 import AddChannelModal from './modals/AddChannelModal.jsx'

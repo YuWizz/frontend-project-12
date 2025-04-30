@@ -29,7 +29,9 @@ const ChatBox = () => {
       <div className="bg-light shadow-sm p-3 mb-0 small">
         {currentChannel && (
           <>
-            <b># {currentChannel.name}</b>
+            <b>
+              # {currentChannel.name}
+            </b>
             <div className="text-muted">{t('chat.messagesCount', { count: currentMessages.length })}</div>
           </>
         )}
@@ -38,10 +40,15 @@ const ChatBox = () => {
 
       <div ref={messagesBoxRef} id="messages-box" className="chat-messages overflow-auto px-5 py-3 flex-grow-1">
         {messagesLoadingStatus === 'loading' && <Spinner animation="border" className="mx-auto d-block" />}
-        {messagesError && <Alert variant="danger">Ошибка: {messagesError}</Alert>}
+        {messagesError && (
+          <Alert variant="danger">
+            Ошибка: {messagesError}
+          </Alert>
+        )}
         {messagesLoadingStatus !== 'loading' && currentMessages.map(message => (
           <div key={message.id} className="text-break mb-2">
-            <b>{message.username}</b>: {message.body}
+            <b>{message.username}</b>
+            : {message.body}
           </div>
         ))}
       </div>

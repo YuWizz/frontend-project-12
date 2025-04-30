@@ -42,7 +42,8 @@ const AuthProvider = ({ children }) => {
       setLoggedIn(true)
     
       return userData
-    } catch (error) {
+    }
+    catch (error) {
       console.error('Ошибка авторизации:', error)
       logOut()
       throw error

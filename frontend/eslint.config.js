@@ -52,7 +52,7 @@ export default [
       '@stylistic/js/indent': ['error', 2],
       '@stylistic/js/comma-dangle': ['error', 'always-multiline'],
       '@stylistic/js/arrow-parens': ['error', 'as-needed'],
-      '@stylistic/js/brace-style': ['error', '1tbs', { allowSingleLine: true }],
+      '@stylistic/js/brace-style': ['error', 'stroustrup', { allowSingleLine: true }],
       'jsx-quotes': ['error', 'prefer-double'],
       '@stylistic/jsx/jsx-indent': ['error', 2],
       '@stylistic/jsx/jsx-indent-props': ['error', 2],

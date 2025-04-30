@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useFormik } from 'formik'
 import axios from 'axios'
 import { useAuth } from '../contexts/useAuth.js'
@@ -40,7 +40,7 @@ const MessageForm = ({ channelId }) => {
 
       const newMessage = {
         body: cleanedBody,
-        channelId: channelId,
+        channelId,
         username: user.username,
       }
 
@@ -49,20 +49,24 @@ const MessageForm = ({ channelId }) => {
           headers: { Authorization: `Bearer ${token}` },
         })
         resetForm()
-
-      } catch (error) {
+      }
+      catch (error) {
         setSubmitting(false)
         console.error('Failed to send message:', error)
         if (error.code === 'ECONNABORTED') {
           setSendError(t('errors.connection'))
-        } else if (error.response) {
+        }
+        else if (error.response) {
           setSendError(t('errors.connection'))
-        } else if (error.request) {
+        }
+        else if (error.request) {
           setSendError(t('errors.connection'))
-        } else {
+        }
+        else {
           setSendError(t('errors.unknown'))
         }
-      } finally {
+      }
+      finally {
         setTimeout(() => {
           setSubmitting(false)
           inputRef.current?.focus()

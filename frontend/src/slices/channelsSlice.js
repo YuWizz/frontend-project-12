@@ -18,7 +18,8 @@ export const fetchChannels = createAsyncThunk(
         headers: { Authorization: `Bearer ${token}` },
       })
       return response.data
-    } catch (error) {
+    }
+    catch (error) {
       if (error.response && error.response.status === 401) {
         return rejectWithValue('Unauthorized')
       }
@@ -38,7 +39,8 @@ export const addNewChannel = createAsyncThunk(
         headers: { Authorization: `Bearer ${token}` },
       })
       return response.data
-    } catch (error) {
+    }
+    catch (error) {
       console.error('Failed to add channel:', error)
       return rejectWithValue(error.message)
     }
@@ -55,7 +57,8 @@ export const renameExistingChannel = createAsyncThunk(
         headers: { Authorization: `Bearer ${token}` },
       })
       return response.data
-    } catch (error) {
+    }
+    catch (error) {
       console.error('Failed to rename channel:', error)
       return rejectWithValue(error.message)
     }
@@ -72,7 +75,8 @@ export const deleteExistingChannel = createAsyncThunk(
         headers: { Authorization: `Bearer ${token}` },
       })
       return { id }
-    } catch (error) {
+    }
+    catch (error) {
       console.error('Failed to delete channel:', error)
       return rejectWithValue(error.message)
     }

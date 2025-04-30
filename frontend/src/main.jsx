@@ -60,7 +60,8 @@ const runApp = async () => {
         </RollbarProvider>
       </React.StrictMode>,
     )
-  } catch (error) {
+  }
+  catch (error) {
     console.error(error)
     const rootElement = document.getElementById('root')
     if (rootElement) {

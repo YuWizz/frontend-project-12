@@ -17,7 +17,8 @@ export const fetchMessages = createAsyncThunk(
         headers: { Authorization: `Bearer ${token}` },
       })
       return response.data
-    } catch (error) {
+    }
+    catch (error) {
       if (error.response && error.response.status === 401) {
         return rejectWithValue('Unauthorized')
       }
