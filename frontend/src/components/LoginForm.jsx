@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form';
 import { useAuth } from '../contexts/useAuth.js';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import routes from '../routes.js';
 
 const LoginForm = () => {
   const auth = useAuth();
@@ -21,7 +22,7 @@ const LoginForm = () => {
     setLoginError(null);
     try {
       await auth.logIn(values);
-      navigate('/');
+      navigate(routes.chatPath())
     } catch (error) {
       setSubmitting(false);
       if (error.isAxiosError && error.response && error.response.status === 401) {

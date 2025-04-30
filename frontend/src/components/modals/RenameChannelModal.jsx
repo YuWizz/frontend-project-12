@@ -3,22 +3,29 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useSelector, useDispatch } from 'react-redux';
 import { Modal, Form, Button } from 'react-bootstrap';
-import { renameExistingChannel, selectChannelNames } from '../../slices/channelsSlice';
+import { renameExistingChannel, selectChannelNames, selectAllChannels } from '../../slices/channelsSlice';
+import { closeModal, selectModalChannel } from '../../slices/modalSlice.js';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import leoProfanity from '../../profanityFilter.js';
 
-const RenameChannelModal = ({ show, handleClose, channelId, currentName }) => {
+const RenameChannelModal = () => {
   const dispatch = useDispatch();
-  const otherChannelNames = useSelector(selectChannelNames).filter(name => name !== currentName);
-  const inputRef = useRef(null);
   const { t } = useTranslation();
+  const modalChannel = useSelector(selectModalChannel);
+  const channelId = modalChannel?.id;
+  const currentName = modalChannel?.name;
+  const allChannels = useSelector(selectAllChannels);
+  const currentChannelData = allChannels.find(ch => ch.id === channelId);
+  const actualCurrentName = currentChannelData?.name ?? '';
+  const otherChannelNames = useSelector(selectChannelNames).filter(name => name !== actualCurrentName);
+  const inputRef = useRef(null);
+
+  const handleSelfClose = () => dispatch(closeModal());
 
   useEffect(() => {
-    if (show) {
-      setTimeout(() => inputRef.current?.select(), 100);
-    }
-  }, [show]);
+    setTimeout(() => inputRef.current?.select(), 100);
+  }, []);
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
@@ -30,9 +37,15 @@ const RenameChannelModal = ({ show, handleClose, channelId, currentName }) => {
   });
 
   const formik = useFormik({
-    initialValues: { name: currentName || '' },
+    initialValues: { name: actualCurrentName },
     validationSchema,
     onSubmit: async (values, { setSubmitting, resetForm, setFieldError }) => {
+      if (!channelId) {
+        console.error("RenameChannelModal: channelId is missing.");
+        setFieldError('name', t('errors.unknown'));
+        setSubmitting(false);
+        return;
+      }
       setSubmitting(true);
         try {
           const cleanedName = leoProfanity.clean(values.name.trim());
@@ -40,16 +53,18 @@ const RenameChannelModal = ({ show, handleClose, channelId, currentName }) => {
           if (renameExistingChannel.fulfilled.match(resultAction)) {
               toast.success(t('toasts.renameChannelSuccess'));
               resetForm();
-              handleClose();
+              handleSelfClose()
           } else {
               toast.error(t('toasts.networkError'));
               setFieldError('name', resultAction.payload || t('errors.unknown'));
               console.error("Rename channel failed:", resultAction.error);
+              inputRef.current?.select();
           }
         } catch (error) {
             toast.error(t('errors.unknown'))
             setFieldError('name', t('errors.unknown'));
             console.error("Unexpected error:", error);
+            inputRef.current?.select();
         } finally {
             setSubmitting(false);
         }
@@ -60,13 +75,12 @@ const RenameChannelModal = ({ show, handleClose, channelId, currentName }) => {
   });
 
   const handleModalClose = () => {
-    formik.resetForm({ values: { name: currentName || '' } });
-    handleClose();
+    formik.resetForm({ values: { name: actualCurrentName } });
+    handleSelfClose();
   };
 
-
   return (
-    <Modal show={show} onHide={handleModalClose} centered>
+    <Modal show onHide={handleModalClose} centered>
       <Modal.Header closeButton>
         <Modal.Title>{t('modals.renameChannel.title')}</Modal.Title>
       </Modal.Header>

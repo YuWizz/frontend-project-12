@@ -6,19 +6,20 @@ import { Modal, Form, Button } from 'react-bootstrap';
 import { addNewChannel, setCurrentChannel, selectChannelNames } from '../../slices/channelsSlice';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import { closeModal } from '../../slices/modalSlice.js';
 import leoProfanity from '../../profanityFilter.js';
 
-const AddChannelModal = ({ show, handleClose }) => {
+const AddChannelModal = () => {
   const dispatch = useDispatch();
   const channelNames = useSelector(selectChannelNames);
   const inputRef = useRef(null);
   const { t } = useTranslation();
 
+  const handleSelfClose = () => dispatch(closeModal());
+
   useEffect(() => {
-    if (show) {
-      inputRef.current?.focus();
-    }
-  }, [show]);
+    inputRef.current?.focus();
+  }, []);
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
@@ -42,16 +43,18 @@ const AddChannelModal = ({ show, handleClose }) => {
           const newChannel = resultAction.payload;
           dispatch(setCurrentChannel(newChannel.id));
           resetForm();
-          handleClose();
+          handleSelfClose();
         } else {
           toast.error(t('toasts.networkError'));
           setFieldError('name', resultAction.payload || t('errors.unknown'));
           console.error("Add channel failed:", resultAction.error);
+          inputRef.current?.select();
         }
       } catch (error) {
           toast.error(t('errors.unknown'));
           setFieldError('name', t('errors.unknown'));
           console.error("Unexpected error:", error);
+          inputRef.current?.select();
       } finally {
          setSubmitting(false);
       }
@@ -61,7 +64,7 @@ const AddChannelModal = ({ show, handleClose }) => {
   });
 
   return (
-    <Modal show={show} onHide={handleClose} centered>
+    <Modal show onHide={handleSelfClose} centered>
       <Modal.Header closeButton>
         <Modal.Title>{t('modals.addChannel.title')}</Modal.Title>
       </Modal.Header>
@@ -84,6 +87,9 @@ const AddChannelModal = ({ show, handleClose }) => {
               {formik.errors.name}
             </Form.Control.Feedback>
           </Form.Group>
+          <Button variant="secondary" onClick={handleSelfClose} className="me-2" disabled={formik.isSubmitting}>
+            {t('buttons.cancel')}
+          </Button>
           <div className="d-flex justify-content-end mt-3">
             <Button type="submit" variant="primary" disabled={formik.isSubmitting}>
               {formik.isSubmitting ? t('loading') : t('buttons.submit')}

@@ -1,26 +1,36 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 import { deleteExistingChannel } from '../../slices/channelsSlice';
+import { closeModal, selectModalChannel } from '../../slices/modalSlice.js';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
-const RemoveChannelModal = ({ show, handleClose, channelId }) => {
+const RemoveChannelModal = () => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
+  const channel = useSelector(selectModalChannel);
+  const channelId = channel?.id;
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteError, setDeleteError] = useState(null);
-  const { t } = useTranslation();
+
+  const handleSelfClose = () => dispatch(closeModal());
 
   const handleDelete = async () => {
+    if (!channelId) {
+      setDeleteError(t('errors.unknown'));
+      return;
+    }
+
     setIsDeleting(true);
     setDeleteError(null);
     try {
       const resultAction = await dispatch(deleteExistingChannel(channelId));
        if (deleteExistingChannel.fulfilled.match(resultAction)) {
         toast.success(t('toasts.removeChannelSuccess'));
-        handleClose();
+        handleSelfClose();
       } else {
-          const errorPayload = resultAction.payload || t('errors.removeChannelError');
+          const errorPayload = resultAction.payload || t('errors.removeChannelError', t('errors.unknown'));
           setDeleteError(errorPayload);
           toast.error(t('errors.network'));
           console.error("Delete channel failed:", resultAction.error);
@@ -38,11 +48,11 @@ const RemoveChannelModal = ({ show, handleClose, channelId }) => {
   const handleModalClose = () => {
     setDeleteError(null);
     setIsDeleting(false);
-    handleClose();
+    handleSelfClose();
   };
 
   return (
-    <Modal show={show} onHide={handleModalClose} centered>
+    <Modal show onHide={handleModalClose} centered>
       <Modal.Header closeButton>
         <Modal.Title>{t('modals.removeChannel.title')}</Modal.Title>
       </Modal.Header>

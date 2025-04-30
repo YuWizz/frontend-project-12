@@ -7,6 +7,7 @@ import { useAuth } from '../contexts/useAuth.js';
 import { useTranslation } from 'react-i18next';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import routes from '../routes.js';
 
 const API_PATH = '/api/v1/signup';
 
@@ -52,7 +53,7 @@ const SignupForm = () => {
         localStorage.setItem('chatToken', response.data.token);
         localStorage.setItem('chatUser', JSON.stringify({ username: response.data.username }));
         await auth.logIn({ username, password });
-        navigate('/');
+        navigate(routes.chatPath());
       } catch (error) {
         setSubmitting(false);
         console.error('Signup failed:', error);

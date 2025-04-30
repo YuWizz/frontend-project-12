@@ -1,9 +1,11 @@
 import React from 'react';
 import { Routes, Route, Navigate, Link } from 'react-router-dom';
 import { useAuth } from './contexts/useAuth.js';
+import routes from './routes.js';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
+import ModalRoot from './components/ModalRoot.jsx';
 import { ToastContainer } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import ChatPage from './pages/ChatPage.jsx';
@@ -21,7 +23,7 @@ function App() {
     <div className="d-flex flex-column h-100">
       <Navbar bg="white" expand="lg" className="shadow-sm">
         <Container>
-          <Navbar.Brand as={Link} to="/">Hexlet Chat</Navbar.Brand>
+          <Navbar.Brand as={Link} to={routes.chatPath()}>Hexlet Chat</Navbar.Brand>
           {loggedIn && (
              <div className='ms-auto'>
                {user && <span className="me-3">{t('navbar.loggedInAs', { username: user.username })}</span>}
@@ -32,10 +34,10 @@ function App() {
       </Navbar>
       <Container fluid className="h-100 flex-grow-1 overflow-auto">
         <Routes>
-          <Route path="/" element={<PrivateRoute><ChatPage /></PrivateRoute>} />
-          <Route path="/login" element={loggedIn ? <Navigate to="/" replace /> : <LoginPage />} />
-          <Route path="/signup" element={loggedIn ? <Navigate to="/" replace /> : <SignupPage />} />
-          <Route path="*" element={<NotFoundPage />} />
+          <Route path={routes.chatPath()} element={<PrivateRoute><ChatPage /></PrivateRoute>} />
+          <Route path={routes.loginPath()} element={loggedIn ? <Navigate to={routes.chatPath()} replace /> : <LoginPage />} />
+          <Route path={routes.signupPath()} element={loggedIn ? <Navigate to={routes.chatPath()} replace /> : <SignupPage />} />
+          <Route path={routes.notFoundPath()} element={<NotFoundPage />} />
         </Routes>
       </Container>
 
@@ -51,6 +53,7 @@ function App() {
         pauseOnHover
         theme="light"
       />
+      <ModalRoot />
     </div>
   );
 }
