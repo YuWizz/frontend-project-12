@@ -1,75 +1,75 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useFormik } from 'formik';
-import axios from 'axios';
-import { useAuth } from '../contexts/useAuth.js';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import InputGroup from 'react-bootstrap/InputGroup';
-import { useTranslation } from 'react-i18next';
-import leoProfanity from '../profanityFilter.js';
+import React, { useState, useEffect, useRef } from 'react'
+import { useFormik } from 'formik'
+import axios from 'axios'
+import { useAuth } from '../contexts/useAuth.js'
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
+import InputGroup from 'react-bootstrap/InputGroup'
+import { useTranslation } from 'react-i18next'
+import leoProfanity from '../profanityFilter.js'
 
-const API_PATH = '/api/v1/messages';
-const AUTH_TOKEN_KEY = 'chatToken';
+const API_PATH = '/api/v1/messages'
+const AUTH_TOKEN_KEY = 'chatToken'
 
 const MessageForm = ({ channelId }) => {
-  const { user } = useAuth();
-  const [sendError, setSendError] = useState(null);
-  const inputRef = useRef(null);
-  const { t } = useTranslation();
+  const { user } = useAuth()
+  const [sendError, setSendError] = useState(null)
+  const inputRef = useRef(null)
+  const { t } = useTranslation()
 
   useEffect(() => {
-    inputRef.current?.focus();
-  }, [channelId]);
+    inputRef.current?.focus()
+  }, [channelId])
 
   const formik = useFormik({
     initialValues: {
       body: '',
     },
     onSubmit: async (values, { setSubmitting, resetForm }) => {
-      setSendError(null);
-      setSubmitting(true);
+      setSendError(null)
+      setSubmitting(true)
 
-      const token = localStorage.getItem(AUTH_TOKEN_KEY);
+      const token = localStorage.getItem(AUTH_TOKEN_KEY)
       if (!token || !user) {
-        setSendError(t('errors.unknown'));
-        setSubmitting(false);
-        return;
+        setSendError(t('errors.unknown'))
+        setSubmitting(false)
+        return
       }
 
-      const cleanedBody = leoProfanity.clean(values.body);
+      const cleanedBody = leoProfanity.clean(values.body)
 
       const newMessage = {
         body: cleanedBody,
         channelId: channelId,
         username: user.username,
-      };
+      }
 
       try {
         await axios.post(API_PATH, newMessage, {
           headers: { Authorization: `Bearer ${token}` },
-        });
-        resetForm();
+        })
+        resetForm()
 
       } catch (error) {
-        setSubmitting(false);
-        console.error('Failed to send message:', error);
+        setSubmitting(false)
+        console.error('Failed to send message:', error)
         if (error.code === 'ECONNABORTED') {
-           setSendError(t('errors.connection'));
+          setSendError(t('errors.connection'))
         } else if (error.response) {
-           setSendError(t('errors.connection'));
+          setSendError(t('errors.connection'))
         } else if (error.request) {
-           setSendError(t('errors.connection'));
+          setSendError(t('errors.connection'))
         } else {
-           setSendError(t('errors.unknown'));
+          setSendError(t('errors.unknown'))
         }
       } finally {
-         setTimeout(() => {
-           setSubmitting(false);
-           inputRef.current?.focus();
-         }, 100);
+        setTimeout(() => {
+          setSubmitting(false)
+          inputRef.current?.focus()
+        }, 100)
       }
     },
-  });
+  })
 
   return (
     <Form onSubmit={formik.handleSubmit} className="py-1 border rounded-2">
@@ -99,7 +99,7 @@ const MessageForm = ({ channelId }) => {
         {sendError && <Form.Control.Feedback type="invalid" tooltip>{sendError}</Form.Control.Feedback>}
       </InputGroup>
     </Form>
-  );
-};
+  )
+}
 
-export default MessageForm;
+export default MessageForm

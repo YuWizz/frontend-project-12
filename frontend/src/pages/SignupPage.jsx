@@ -1,13 +1,13 @@
-import React from 'react';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Card from 'react-bootstrap/Card';
-import SignupForm from '../components/SignupForm.jsx';
-import { useTranslation } from 'react-i18next';
+import React from 'react'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Card from 'react-bootstrap/Card'
+import SignupForm from '../components/SignupForm.jsx'
+import { useTranslation } from 'react-i18next'
 
 const SignupPage = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return (
     <Container fluid className="h-100">
@@ -22,7 +22,7 @@ const SignupPage = () => {
         </Col>
       </Row>
     </Container>
-  );
-};
+  )
+}
 
-export default SignupPage;
+export default SignupPage

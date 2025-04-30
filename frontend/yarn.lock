@@ -696,6 +696,24 @@
   resolved "https://registry.yarnpkg.com/@standard-schema/utils/-/utils-0.3.0.tgz#3d5e608f16c2390c10528e98e59aef6bf73cae7b"
   integrity sha512-e7Mew686owMaPJVNNLs55PUvgz371nKgwsc4vxE49zsODpJEnxgxRo2y/OKrqueavXgZNMDVj3DdHFlaSAeU8g==
 
+"@stylistic/eslint-plugin-js@^4.2.0":
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/@stylistic/eslint-plugin-js/-/eslint-plugin-js-4.2.0.tgz#30536fd35dd6aba08c1e234fe37bf66831c6e989"
+  integrity sha512-MiJr6wvyzMYl/wElmj8Jns8zH7Q1w8XoVtm+WM6yDaTrfxryMyb8n0CMxt82fo42RoLIfxAEtM6tmQVxqhk0/A==
+  dependencies:
+    eslint-visitor-keys "^4.2.0"
+    espree "^10.3.0"
+
+"@stylistic/eslint-plugin-jsx@^4.2.0":
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/@stylistic/eslint-plugin-jsx/-/eslint-plugin-jsx-4.2.0.tgz#31799d2fc3022f1f17700bda79184825580b1e30"
+  integrity sha512-V+AtcVs0a3ck2IWWH/fd/+TmOYSgBJlsJXIR65+3kqgNi3p3pPfo9C8nhRsU/KlcSwhnzyx+Z/kEcuWCMZtTcA==
+  dependencies:
+    eslint-visitor-keys "^4.2.0"
+    espree "^10.3.0"
+    estraverse "^5.3.0"
+    picomatch "^4.0.2"
+
 "@swc/helpers@^0.5.0":
   version "0.5.17"
   resolved "https://registry.yarnpkg.com/@swc/helpers/-/helpers-0.5.17.tgz#5a7be95ac0f0bf186e7e6e890e7a6f6cda6ce971"
