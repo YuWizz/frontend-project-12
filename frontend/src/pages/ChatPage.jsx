@@ -63,9 +63,9 @@ const ChatPage = () => {
       socket.off('newChannel', handleNewChannel);
       socket.off('removeChannel', handleRemoveChannel);
       socket.off('renameChannel', handleRenameChannel);
-       socket.off('connect');
-       socket.off('disconnect');
-       socket.off('connect_error');
+        socket.off('connect');
+        socket.off('disconnect');
+        socket.off('connect_error');
       if (socket.connected) socket.disconnect();
     };
   }, [dispatch]);
