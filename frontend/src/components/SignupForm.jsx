@@ -1,26 +1,26 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { useFormik } from 'formik'
-import * as Yup from 'yup'
-import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../contexts/useAuth.js'
-import { useTranslation } from 'react-i18next'
-import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
-import routes from '../routes.js'
+import React, { useEffect, useRef, useState } from 'react';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/useAuth.js';
+import { useTranslation } from 'react-i18next';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import routes from '../routes.js';
 
-const API_PATH = '/api/v1/signup'
+const API_PATH = '/api/v1/signup';
 
 const SignupForm = () => {
-  const auth = useAuth()
-  const navigate = useNavigate()
-  const [signupError, setSignupError] = useState(null)
-  const usernameInputRef = useRef(null)
-  const { t } = useTranslation()
+  const auth = useAuth();
+  const navigate = useNavigate();
+  const [signupError, setSignupError] = useState(null);
+  const usernameInputRef = useRef(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
-    usernameInputRef.current?.focus()
-  }, [])
+    usernameInputRef.current?.focus();
+  }, []);
 
   const validationSchema = Yup.object().shape({
     username: Yup.string()
@@ -34,7 +34,7 @@ const SignupForm = () => {
     confirmPassword: Yup.string()
       .required(t('errors.required'))
       .oneOf([Yup.ref('password'), null], t('errors.passwordsMustMatch')),
-  })
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -44,34 +44,34 @@ const SignupForm = () => {
     },
     validationSchema,
     onSubmit: async (values, { setSubmitting, setFieldError }) => {
-      setSignupError(null)
-      setSubmitting(true)
-      const { username, password } = values
+      setSignupError(null);
+      setSubmitting(true);
+      const { username, password } = values;
 
       try {
-        const response = await axios.post(API_PATH, { username, password })
-        localStorage.setItem('chatToken', response.data.token)
-        localStorage.setItem('chatUser', JSON.stringify({ username: response.data.username }))
-        await auth.logIn({ username, password })
-        navigate(routes.chatPath())
+        const response = await axios.post(API_PATH, { username, password });
+        localStorage.setItem('chatToken', response.data.token);
+        localStorage.setItem('chatUser', JSON.stringify({ username: response.data.username }));
+        await auth.logIn({ username, password });
+        navigate(routes.chatPath());
       } catch (error) {
-        setSubmitting(false)
-        console.error('Signup failed:', error)
+        setSubmitting(false);
+        console.error('Signup failed:', error);
         if (error.isAxiosError && error.response) {
           if (error.response.status === 409) {
-            setFieldError('username', t('errors.userExists'))
-            usernameInputRef.current?.focus()
+            setFieldError('username', t('errors.userExists'));
+            usernameInputRef.current?.focus();
           } else {
-            setSignupError(t('errors.connection'))
+            setSignupError(t('errors.connection'));
           }
         } else if (error.request) {
-          setSignupError(t('errors.connection'))
+          setSignupError(t('errors.connection'));
         } else {
-          setSignupError(t('errors.unknown'))
+          setSignupError(t('errors.unknown'));
         }
       }
     },
-  })
+  });
 
   return (
     <Form onSubmit={formik.handleSubmit}>
@@ -136,7 +136,7 @@ const SignupForm = () => {
         {formik.isSubmitting ? t('loading') : t('buttons.signup')}
       </Button>
     </Form>
-  )
-}
+  );
+};
 
-export default SignupForm
+export default SignupForm;
