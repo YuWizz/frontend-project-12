@@ -45,9 +45,9 @@ const messagesSlice = createSlice({
       }
     },
   },
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder
-      .addCase(fetchMessages.pending, state => {
+      .addCase(fetchMessages.pending, (state) => {
         state.loadingStatus = 'loading'
         state.error = null
       })

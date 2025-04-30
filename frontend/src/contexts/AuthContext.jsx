@@ -1,4 +1,4 @@
-import React, {
+import {
   useState,
   useMemo,
   useCallback,
@@ -22,7 +22,6 @@ const AuthProvider = ({ children }) => {
   const logOut = useCallback(() => {
     localStorage.removeItem(localStorageKeys.token)
     localStorage.removeItem(localStorageKeys.user)
-  
     setToken(null)
     setUser(null)
     setLoggedIn(false)
@@ -32,15 +31,13 @@ const AuthProvider = ({ children }) => {
     try {
       const response = await axios.post('/api/v1/login', authData)
       const { token: receivedToken, username } = response.data
-    
       localStorage.setItem(localStorageKeys.token, receivedToken)
       const userData = { username }
       localStorage.setItem(localStorageKeys.user, JSON.stringify(userData))
-    
       setToken(receivedToken)
       setUser(userData)
       setLoggedIn(true)
-    
+
       return userData
     }
     catch (error) {

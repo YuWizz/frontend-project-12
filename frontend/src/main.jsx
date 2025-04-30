@@ -20,7 +20,7 @@ const initializeApp = async () => {
     captureUncaught: true,
     captureUnhandledRejections: true,
   }
-  
+
   await i18next
     .use(initReactI18next)
     .init({

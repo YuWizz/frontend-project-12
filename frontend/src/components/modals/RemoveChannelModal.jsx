@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Modal, Button } from 'react-bootstrap'
 import { deleteExistingChannel } from '../../slices/channelsSlice'

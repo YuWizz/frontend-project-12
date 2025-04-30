@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   fetchChannels, addChannel, removeChannel, renameChannel,
@@ -56,7 +56,6 @@ const ChatPage = () => {
     socket.on('connect', () => console.log('Socket connected (ChatPage):', socket.id))
     socket.on('disconnect', r => console.log('Socket disconnected (ChatPage):', r))
     socket.on('connect_error', e => console.error('Socket conn error (ChatPage):', e))
-
 
     return () => {
       socket.off('newMessage', handleNewMessage)

@@ -42,7 +42,7 @@ const LoginForm = () => {
 
   return (
     <Formik
-      initialValues={initialValues} 
+      initialValues={initialValues}
       onSubmit={handleSubmit}
     >
       {({

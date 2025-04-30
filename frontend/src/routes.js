@@ -4,5 +4,5 @@ const routes = {
   signupPath: () => '/signup',
   notFoundPath: () => '*',
 }
-  
+
 export default routes

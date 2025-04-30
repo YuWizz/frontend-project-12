@@ -32,7 +32,9 @@ const ChatBox = () => {
             <b>
               # {currentChannel.name}
             </b>
-            <div className="text-muted">{t('chat.messagesCount', { count: currentMessages.length })}</div>
+            <div className="text-muted">{t('chat.messagesCount', 
+              { count: currentMessages.length })}
+            </div>
           </>
         )}
         {!currentChannel && <p className="m-0">Выберите канал</p>}
@@ -42,13 +44,13 @@ const ChatBox = () => {
         {messagesLoadingStatus === 'loading' && <Spinner animation="border" className="mx-auto d-block" />}
         {messagesError && (
           <Alert variant="danger">
-            Ошибка: {messagesError}
+            {messagesError}
           </Alert>
         )}
         {messagesLoadingStatus !== 'loading' && currentMessages.map(message => (
           <div key={message.id} className="text-break mb-2">
             <b>{message.username}</b>
-            : {message.body}
+              {message.body}
           </div>
         ))}
       </div>

@@ -119,9 +119,9 @@ const channelsSlice = createSlice({
       }
     },
   },
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder
-      .addCase(fetchChannels.pending, state => {
+      .addCase(fetchChannels.pending, (state) => {
         state.loadingStatus = 'loading'
         state.error = null
       })
@@ -137,11 +137,11 @@ const channelsSlice = createSlice({
         state.error = action.payload || action.error.message
       })
 
-      .addCase(addNewChannel.pending, state => {
+      .addCase(addNewChannel.pending, (state) => {
         state.channelActionStatus = 'loading'
         state.channelActionError = null
       })
-      .addCase(addNewChannel.fulfilled, state => {
+      .addCase(addNewChannel.fulfilled, (state) => {
         state.channelActionStatus = 'succeeded'
       })
       .addCase(addNewChannel.rejected, (state, action) => {
@@ -149,11 +149,11 @@ const channelsSlice = createSlice({
         state.channelActionError = action.payload || action.error.message
       })
 
-      .addCase(renameExistingChannel.pending, state => {
+      .addCase(renameExistingChannel.pending, (state) => {
         state.channelActionStatus = 'loading'
         state.channelActionError = null
       })
-      .addCase(renameExistingChannel.fulfilled, state => {
+      .addCase(renameExistingChannel.fulfilled, (state) => {
         state.channelActionStatus = 'succeeded'
       })
       .addCase(renameExistingChannel.rejected, (state, action) => {
@@ -161,11 +161,11 @@ const channelsSlice = createSlice({
         state.channelActionError = action.payload || action.error.message
       })
 
-      .addCase(deleteExistingChannel.pending, state => {
+      .addCase(deleteExistingChannel.pending, (state) => {
         state.channelActionStatus = 'loading'
         state.channelActionError = null
       })
-      .addCase(deleteExistingChannel.fulfilled, state => {
+      .addCase(deleteExistingChannel.fulfilled, (state) => {
         state.channelActionStatus = 'succeeded'
       })
       .addCase(deleteExistingChannel.rejected, (state, action) => {

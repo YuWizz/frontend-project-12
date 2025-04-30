@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
 import routes from '../routes.js'
 import Container from 'react-bootstrap/Container'
@@ -26,7 +25,8 @@ const LoginPage = () => {
             </Card.Body>
             <Card.Footer className="p-4">
               <div className="text-center">
-                <span>{t('login.noAccount')}</span>{' '}
+                <span>{t('login.noAccount')}</span>
+                {' '}
                 <Link to={routes.signupPath()}>{t('login.signupLink')}</Link>
               </div>
             </Card.Footer>
